@@ -32,11 +32,13 @@ namespace Farmacia
         public static ArrayList clienteNumero = new ArrayList(); // 001
         public static ArrayList clienteCpf = new ArrayList(); // xxx.xxx.xxx-xx
         public static ArrayList clienteGoverno = new ArrayList(); // Bool ou String (string)
-        public static float renda = 0;// Quanto foi que ganhou no dia
+        public static double renda = 0;// Quanto foi que ganhou no dia
                                       //Vars comuns
-        public static int menu = 1; // para o While, quando for 0 ou outra coisa o programa acaba
-        public static string looping = "s";
+        public static int menu = 1; // para a resposta do menu
+        public static string bugMenu; //para receber a respsota do usuario e testar se é um Digit ou não
+        public static string looping = "s"; // para o While, quando for n ou outra coisa o programa acaba
         public static int erro1 = 0; //Caso que fique 1, ele fala "erro opção invalida"
+        public static int erro2 = 0; // Caso fique 1, Erro digitou uma letra
 
 
         static void Main(string[] args)
@@ -140,22 +142,24 @@ namespace Farmacia
                         ListarRemedios();
                         Sair();
                         break;
-
+                    //Consultar remedio
                     case 2:
                         Console.Clear();
-
+                        ConsultarRemedio();
+                        Sair();
                         break;
-
+                    //Vender Remedio
                     case 3:
                         Console.Clear();
                         VenderRemedios();
+                        Sair();
                         break;
-
+                    //Repo Remedio
                     case 4:
                         Console.Clear();
                         ReporRemedios();
                         break;
-
+                    // Resposta invalida
                     default:
                         erro1 = 1;
                         break;
@@ -181,7 +185,14 @@ namespace Farmacia
             Console.WriteLine("9 - Sair");
             if (erro1 == 1) { Console.WriteLine("Opção invalida, por favor tente novamente"); erro1 = 0; }
             Console.WriteLine("Digite uma opção");
-            menu = int.Parse(Console.ReadLine());
+            if (erro2 == 1) { Console.WriteLine("ACEITAMOS A PENAS NUMEROS, tente novamente"); erro2 = 0; }
+            bugMenu = Console.ReadLine();
+            if (!char.IsDigit(bugMenu[0]))
+            {
+                erro2 = 1;
+                Menu();
+            }
+            menu = int.Parse(bugMenu);
         }
 
 
@@ -273,8 +284,7 @@ namespace Farmacia
                     Console.WriteLine("Ogrigada pela compra, VOLTE SEMPRE");
                     break;
             }
-
-            Sair();
+            renda = total;
         }
 
         static void ConsultarRemedio()
