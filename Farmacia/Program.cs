@@ -194,10 +194,10 @@ namespace Farmacia
 
         static void ListarRemedios()
         {
-            int i = 0;
-            for (; i <= 11; i++)
+            int i = 1;
+            for (i=1; i <= 10; i++)
             {
-                Console.WriteLine("{0} - {1} - qtd {2} - {3}R$    ***{5}\n", remedioNumero[i], remedioNome[i], remedioQuantidade[i], remedioPreco[i], remedioPrevisao[i]);
+                Console.WriteLine("{0} - {1} - qtd {2} - {3}R$    ***{4}\n", remedioNumero[i], remedioNome[i], remedioQuantidade[i], remedioPreco[i], remedioPrevisao[i]);
 
             }
         }
@@ -233,12 +233,12 @@ namespace Farmacia
             } while (resposta == "s");
             Console.Clear();
             Console.WriteLine("**********Carrinho de compras**********\n\n\n");
-            for (i = 0; i <= contador; i++)
+            for (i = 0; i <= contador-1; i++)
             {
                 Console.WriteLine("Nome:{0} -qtd {1} preco={2}R$\n", compraNome[i], qtd[i], compraPreco[i] * qtd[i]);
                 total = total + (compraPreco[i] * qtd[i]);
             }
-            Console.WriteLine("\n\nTOTAL: {0}\n\n", total);
+            Console.WriteLine("\n\nTOTAL: {0}R$\n\n", total);
 
             Console.WriteLine("Escolha a forma de pagamento:/n");
             Console.WriteLine("1-Debito\n2-Credito\n3-A vista\n");
