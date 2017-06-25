@@ -148,8 +148,6 @@ namespace Farmacia
 
                 switch (menu)
                 {
-
-
                     //Listar os remedios
                     case 1:
                         Console.Clear();
@@ -174,14 +172,22 @@ namespace Farmacia
                         ReporRemedios();
                         Sair();
                         break;
+                    //Cadastrar cliente
                     case 5:
                         Console.Clear();
                         CadastrarCliente();
                         Sair();
                         break;
+                    //Listar clientes
                     case 6:
                         Console.Clear();
                         ListarCliente();
+                        Sair();
+                        break;
+                    //Pedido delivery
+                    case 7:
+                        Console.Clear();
+                        PedidoDelivery();
                         Sair();
                         break;
                     // Resposta invalida
@@ -376,6 +382,26 @@ namespace Farmacia
             }
 
         }
-    }
 
+        static void PedidoDelivery()//Precisa dar um jeito de pesquisar pelo nome | Falta Refinar a compra dentro do Delivery
+        {
+            int identificador=0;
+            string correto = ("sim"); 
+            Console.WriteLine("****************DELIVERY****************\n\n");
+            Console.WriteLine("Digite o codigo de identificação do cliente");
+            identificador = int.Parse(Console.ReadLine());
+            if (identificador < clienteNumero.Count)
+            {
+                Console.Clear();
+                Console.WriteLine("****************DELIVERY****************\n\n");
+                Console.WriteLine("Cliente encontrado!");
+                Console.WriteLine("Nome:{0}\nIdade:{1}\nGoverno:{2}\nCPF:{3}\nEndereco:{4}\nComento:{5}\nTelefone:{5}", clienteNome[identificador], clienteIdade[identificador], clienteGoverno[identificador], clienteCpf[identificador], clienteEndereco[identificador], clienteComplemento[identificador], clienteTelefone[identificador]);
+                Console.WriteLine("Estas informações estão corretas?(sim/nao)");
+                correto = Console.ReadLine();
+                if (correto == "nao") { Menu(); }
+                VenderRemedios();
+            }
+            else { Console.WriteLine("Cliente não encontrado, tente novamente");}
+        }
+    }
 }
