@@ -28,6 +28,7 @@ namespace Farmacia
         public static ArrayList clienteNome = new ArrayList(); // Seu zé
         public static ArrayList clienteIdade = new ArrayList();// 69
         public static ArrayList clienteEndereco = new ArrayList(); // Rua seu zezinho
+        public static ArrayList clienteComplemento = new ArrayList(); //apt 1002 bloco A
         public static ArrayList clienteTelefone = new ArrayList();// (xx) xxx-xxx
         public static ArrayList clienteNumero = new ArrayList(); // 001
         public static ArrayList clienteCpf = new ArrayList(); // xxx.xxx.xxx-xx
@@ -126,6 +127,19 @@ namespace Farmacia
             remedioPreco[10] = 5.00;
             remedioSintoma[10] = "dor forte - dores no coraçao";
 
+            //Declarar Clientes
+
+            clienteNome.Add("Biliro Samico");
+            clienteNumero.Add(0);
+            clienteIdade.Add(86);
+            clienteGoverno.Add("nao");
+            clienteCpf.Add("123.456.789.10");
+            clienteEndereco.Add("Rua dos Gatos,356");
+            clienteComplemento.Add("");
+            clienteTelefone.Add("81 969784827");
+
+            
+
             // Codigo em si \/
 
             while (looping == "s")
@@ -158,6 +172,17 @@ namespace Farmacia
                     case 4:
                         Console.Clear();
                         ReporRemedios();
+                        Sair();
+                        break;
+                    case 5:
+                        Console.Clear();
+                        CadastrarCliente();
+                        Sair();
+                        break;
+                    case 6:
+                        Console.Clear();
+                        ListarCliente();
+                        Sair();
                         break;
                     // Resposta invalida
                     default:
@@ -179,13 +204,14 @@ namespace Farmacia
             Console.WriteLine("3 - Vender remedio\n");// Retirar X do estoque - Desconto para pessoas do governo em base do salario
             Console.WriteLine("4 - Repor remedio  \n");
             Console.WriteLine("5 - Cadastrar cliente \n");// HU3 vamos mandar propaganda
-            Console.WriteLine("6 - Pedido delivery");
-            Console.WriteLine("7 - Salvar dados\n");//Pensar em um nome melhor
-            Console.WriteLine("8 - Ler Dados\n");
-            Console.WriteLine("9 - Sair");
+            Console.WriteLine("6 - Listar clientes\n"); 
+            Console.WriteLine("7 - Pedido delivery\n");
+            Console.WriteLine("8 - Salvar dados\n");//Pensar em um nome melhor
+            Console.WriteLine("9 - Ler Dados\n");
+            Console.WriteLine("10 - Sair");
             if (erro1 == 1) { Console.WriteLine("Opção invalida, por favor tente novamente"); erro1 = 0; }
-            Console.WriteLine("Digite uma opção");
             if (erro2 == 1) { Console.WriteLine("ACEITAMOS A PENAS NUMEROS, tente novamente"); erro2 = 0; }
+            Console.WriteLine("Digite uma opção");            
             bugMenu = Console.ReadLine();
             if (!char.IsDigit(bugMenu[0]))
             {
@@ -314,6 +340,41 @@ namespace Farmacia
             x = int.Parse(Console.ReadLine());
             Console.WriteLine("Informe a quantidade: ");
             remedioQuantidade[x] = int.Parse(Console.ReadLine());
+        }
+
+        static void CadastrarCliente()
+        {
+            Console.Clear();
+            Console.WriteLine("Digite o nome");
+            clienteNome.Add(Console.ReadLine());
+            //NUEMERO da ordem
+            clienteNumero.Add(clienteNumero.Count);
+            Console.WriteLine("Digite a idade");
+            clienteIdade.Add(int.Parse(Console.ReadLine()));
+            Console.WriteLine("O cliente faz parte de algum programa do governo?");
+            clienteGoverno.Add(Console.ReadLine());
+            Console.WriteLine("Digite o CPF do cliente(Com os pontos)");
+            clienteCpf.Add(Console.ReadLine());
+            Console.WriteLine("Digite o endereco:");
+            clienteEndereco.Add(Console.ReadLine());
+            Console.WriteLine("Digite o complemento");
+            clienteComplemento.Add(Console.ReadLine());
+            Console.WriteLine("Digite o numero com o 81 e o 9");
+            clienteTelefone.Add(Console.ReadLine());
+
+        }
+
+        static void ListarCliente()
+        {
+            Console.Clear();
+            int i = 0;
+            Console.WriteLine("***************LISTA DE CLIENTES***************\n\n");
+            for (; i <= clienteNumero.Count - 1; i++)
+            {
+                Console.WriteLine("{0} - {1} ",clienteNumero[i],clienteNome[i]);
+
+            }
+
         }
     }
 
