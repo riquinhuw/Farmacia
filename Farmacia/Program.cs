@@ -131,14 +131,32 @@ namespace Farmacia
 
             clienteNome.Add("Biliro Samico");
             clienteNumero.Add(0);
-            clienteIdade.Add(86);
+            clienteIdade.Add(18);
             clienteGoverno.Add("nao");
             clienteCpf.Add("123.456.789.10");
             clienteEndereco.Add("Rua dos Gatos,356");
             clienteComplemento.Add("");
             clienteTelefone.Add("81 969784827");
 
-            
+            clienteNome.Add("Joao Cleber");
+            clienteNumero.Add(1);
+            clienteIdade.Add(35);
+            clienteGoverno.Add("nao");
+            clienteCpf.Add("987.654.321-25");
+            clienteEndereco.Add("Avenida Cleberalto de Asis,121");
+            clienteComplemento.Add("Bloco A14, Apartamento 304");
+            clienteTelefone.Add("81 984125478");
+
+            clienteNome.Add("Claudia Leite");
+            clienteNumero.Add(2);
+            clienteIdade.Add(45);
+            clienteGoverno.Add("sim");
+            clienteCpf.Add("787.545.213-75");
+            clienteEndereco.Add("Avenida Via Lactia,531");
+            clienteComplemento.Add("Bloco Apolo, Apt 11");
+            clienteTelefone.Add("81 981832468");
+
+
 
             // Codigo em si \/
 
@@ -166,7 +184,7 @@ namespace Farmacia
                         VenderRemedios();
                         Sair();
                         break;
-                    //Repo Remedio
+                    //Repor Remedio
                     case 4:
                         Console.Clear();
                         ReporRemedios();
@@ -189,6 +207,11 @@ namespace Farmacia
                         Console.Clear();
                         PedidoDelivery();
                         Sair();
+                        break;
+                    //Sair
+                    case 10:
+                        Console.Clear();
+
                         break;
                     // Resposta invalida
                     default:
@@ -234,7 +257,6 @@ namespace Farmacia
             looping = Console.ReadLine();
         }
 
-
         static void ListarRemedios()
         {
             int i = 1;
@@ -244,7 +266,6 @@ namespace Farmacia
 
             }
         }
-
 
         static void VenderRemedios()
         {
@@ -259,20 +280,46 @@ namespace Farmacia
             double total = 0;
             int pagamento = 0;
             double recebido = 0;
+            string evitarErro;
+            int evitarErroNum = 0;
 
             do
             {
                 Console.Clear();
-                Console.WriteLine("Digite o numero do remedio");
-                numero[contador] = int.Parse(Console.ReadLine());
+                do
+                {
+                    do
+                    {
+                        Console.WriteLine("Digite o numero do remedio");
+                        if (evitarErroNum == 1) { Console.WriteLine("Digite UM NUMERO!"); }
+                        evitarErro = Console.ReadLine();
+                        if (!char.IsDigit(evitarErro[0])) // evitar que o usuario digite letras
+                        { evitarErroNum = 1; }
+                        else
+                        { evitarErroNum = 0; }
+                    } while (evitarErroNum == 1);
+
+                    if (Convert.ToInt32(evitarErro)>= 11) { evitarErroNum = 1; } else { evitarErroNum = 0; }
+
+                } while (evitarErroNum == 1);
+                numero[contador] = int.Parse(evitarErro);
+
                 Console.WriteLine("Nome:{0} - Preço:{1}R$\n", remedioNome[numero[contador]], remedioPreco[numero[contador]]);
-                Console.WriteLine("Digite a quantidade:");
-                qtd[contador] = int.Parse(Console.ReadLine());
-                compraNome[contador] = remedioNome[numero[contador]];
-                compraPreco[contador] = remedioPreco[numero[contador]];
-                contador++;
+                do
+                {
+                    Console.WriteLine("Digite a quantidade:");
+                    evitarErro = Console.ReadLine();
+                    if (!char.IsDigit(evitarErro[0])) //Evitar que o usuario digite letras
+                    { evitarErroNum = 1; }
+                    else
+                    { evitarErroNum = 0; }
+                    qtd[contador] = int.Parse(evitarErro);
+                    compraNome[contador] = remedioNome[numero[contador]];
+                    compraPreco[contador] = remedioPreco[numero[contador]];
+                } while (evitarErroNum == 1);
                 Console.WriteLine("Deseja adicionar outro remedio?(s/n)");
                 resposta = Console.ReadLine();
+                contador++;
             } while (resposta == "s");
             Console.Clear();
             Console.WriteLine("**********Carrinho de compras**********\n\n\n");
@@ -312,7 +359,7 @@ namespace Farmacia
                     Console.WriteLine("TOTAL A PAGAR:{0}R$", total);
                     Console.WriteLine("Digite o valor recebido");
                     recebido = int.Parse(Console.ReadLine());
-                    Console.WriteLine("O Troco é de {0}", recebido - total);
+                    Console.WriteLine("O Troco é de {0}R$", recebido - total);
                     Console.WriteLine("Ogrigada pela compra, VOLTE SEMPRE");
                     break;
             }
@@ -365,7 +412,7 @@ namespace Farmacia
             clienteEndereco.Add(Console.ReadLine());
             Console.WriteLine("Digite o complemento");
             clienteComplemento.Add(Console.ReadLine());
-            Console.WriteLine("Digite o numero com o 81 e o 9");
+            Console.WriteLine("Digite o numero do cliente com o DDD e o 9:");
             clienteTelefone.Add(Console.ReadLine());
 
         }
@@ -402,6 +449,15 @@ namespace Farmacia
                 VenderRemedios();
             }
             else { Console.WriteLine("Cliente não encontrado, tente novamente");}
+        }
+
+        static void Exit()
+        {
+            string perguntaSair = "n";
+            Console.WriteLine("Você deseja realmente sair?(s/n)");
+            perguntaSair = Console.ReadLine();
+            if (perguntaSair == "s") { looping = "n"; }
+
         }
     }
 }
