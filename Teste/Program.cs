@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ namespace Teste
 {
     class Program
     {
+        
         static void Main(string[] args)
         {
 
@@ -19,17 +20,21 @@ namespace Teste
             string[] remedioPrevisao = new string[11]; // Previsão de quando vai voltar
             double[] remedioPreco = new double[11]; //Preço
             string[] remedioSintoma = new string[11];// dor - rim - meu deus
+            ArrayList clienteIdade = new ArrayList();
 
+            clienteIdade[1] = "hue hue hue";
 
             int i = 0;
             for (; i < 10; i++) { Console.WriteLine(i); }
 
             i = 0;
-            for (i = 0; i <= 11 - 1; i++)
+            for (i = 0; i <= 10; i++)
             {
-                Console.WriteLine("{0} {1} {2} {3} {4}",remedioNome[i],remedioQuantidade[i],remedioPreco[i],remedioPrevisao[i]);
+                Console.WriteLine("{0}",clienteIdade[1]);
 
             }
+            clienteIdade[1] = "hue hue hue";
+            Console.WriteLine("{0}", clienteIdade[1]);
 
         }
     

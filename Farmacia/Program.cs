@@ -208,10 +208,14 @@ namespace Farmacia
                         PedidoDelivery();
                         Sair();
                         break;
-                    //Sair
-                    case 10:
+                    case 8:
                         Console.Clear();
-
+                        EditarCliente();
+                        break;
+                    //Sair
+                    case 11:
+                        Console.Clear();
+                        Exit();
                         break;
                     // Resposta invalida
                     default:
@@ -235,9 +239,10 @@ namespace Farmacia
             Console.WriteLine("5 - Cadastrar cliente \n");// HU3 vamos mandar propaganda
             Console.WriteLine("6 - Listar clientes\n"); 
             Console.WriteLine("7 - Pedido delivery\n");
-            Console.WriteLine("8 - Salvar dados\n");//Pensar em um nome melhor
-            Console.WriteLine("9 - Ler Dados\n");
-            Console.WriteLine("10 - Sair");
+            Console.WriteLine("8 - Editar cliente\n");
+            Console.WriteLine("9 - Salvar dados\n");//Pensar em um nome melhor
+            Console.WriteLine("10 - Ler Dados\n");
+            Console.WriteLine("11 - Sair");
             if (erro1 == 1) { Console.WriteLine("Opção invalida, por favor tente novamente"); erro1 = 0; }
             if (erro2 == 1) { Console.WriteLine("ACEITAMOS A PENAS NUMEROS, tente novamente"); erro2 = 0; }
             Console.WriteLine("Digite uma opção");            
@@ -374,12 +379,18 @@ namespace Farmacia
             Console.WriteLine("Procurar por palavras-chaves de sintomas\n\n");
             Console.WriteLine("Informe um sintoma\n");
             sintoma = Console.ReadLine();
+            Console.WriteLine("\n\n");
             foreach (string sintomass in remedioSintoma)
             {
 
                 if (sintoma.ToLower().Contains(sintoma.ToLower()))
                 {
-                    Console.WriteLine("para {1} use: {0}   -{2}", remedioNome[i], remedioSintoma[i], remedioNumero[i]);
+                    if (remedioNome[i] == null)
+                    { }
+                    else
+                    {
+                        Console.WriteLine("para {1} use: {0}   -{2}", remedioNome[i], remedioSintoma[i], remedioNumero[i]);
+                    }
                 }
                 i++;
             }
@@ -392,7 +403,7 @@ namespace Farmacia
             Console.WriteLine("Digite o número remédio: ");
             x = int.Parse(Console.ReadLine());
             Console.WriteLine("Informe a quantidade: ");
-            remedioQuantidade[x] = int.Parse(Console.ReadLine());
+            remedioQuantidade[x] = remedioQuantidade[x] + int.Parse(Console.ReadLine());
         }
 
         static void CadastrarCliente()
@@ -400,8 +411,7 @@ namespace Farmacia
             Console.Clear();
             Console.WriteLine("Digite o nome");
             clienteNome.Add(Console.ReadLine());
-            //NUEMERO da ordem
-            clienteNumero.Add(clienteNumero.Count);
+            clienteNumero.Add(clienteNumero.Count);//NUEMERO da ordem
             Console.WriteLine("Digite a idade");
             clienteIdade.Add(int.Parse(Console.ReadLine()));
             Console.WriteLine("O cliente faz parte de algum programa do governo?");
@@ -414,7 +424,6 @@ namespace Farmacia
             clienteComplemento.Add(Console.ReadLine());
             Console.WriteLine("Digite o numero do cliente com o DDD e o 9:");
             clienteTelefone.Add(Console.ReadLine());
-
         }
 
         static void ListarCliente()
@@ -427,7 +436,6 @@ namespace Farmacia
                 Console.WriteLine("{0} - {1} ",clienteNumero[i],clienteNome[i]);
 
             }
-
         }
 
         static void PedidoDelivery()//Precisa dar um jeito de pesquisar pelo nome | Falta Refinar a compra dentro do Delivery
@@ -442,13 +450,55 @@ namespace Farmacia
                 Console.Clear();
                 Console.WriteLine("****************DELIVERY****************\n\n");
                 Console.WriteLine("Cliente encontrado!");
-                Console.WriteLine("Nome:{0}\nIdade:{1}\nGoverno:{2}\nCPF:{3}\nEndereco:{4}\nComento:{5}\nTelefone:{5}", clienteNome[identificador], clienteIdade[identificador], clienteGoverno[identificador], clienteCpf[identificador], clienteEndereco[identificador], clienteComplemento[identificador], clienteTelefone[identificador]);
+                Console.WriteLine("Nome:{0}\nIdade:{1}\nGoverno:{2}\nCPF:{3}\nEndereco:{4}\nComplemento:{5}\nTelefone:{6}", clienteNome[identificador], clienteIdade[identificador], clienteGoverno[identificador], clienteCpf[identificador], clienteEndereco[identificador], clienteComplemento[identificador], clienteTelefone[identificador]);
                 Console.WriteLine("Estas informações estão corretas?(sim/nao)");
                 correto = Console.ReadLine();
                 if (correto == "nao") { Menu(); }
                 VenderRemedios();
             }
             else { Console.WriteLine("Cliente não encontrado, tente novamente");}
+        }
+
+        static void EditarCliente()
+        {
+            int identificador = 0;
+            string correto= "sim";
+            do
+            {
+                Console.WriteLine("Digite o numero de identificação do clinte");
+                identificador = int.Parse(Console.ReadLine());
+                Console.WriteLine("Cliente encontrado!");
+                Console.WriteLine("Nome:{0}\nIdade:{1}\nGoverno:{2}\nCPF:{3}\nEndereco:{4}\nComplemento:{5}\nTelefone:{6}", clienteNome[identificador], clienteIdade[identificador], clienteGoverno[identificador], clienteCpf[identificador], clienteEndereco[identificador], clienteComplemento[identificador], clienteTelefone[identificador]);
+                Console.WriteLine("Estas informações estão corretas?(sim/nao)");
+                correto = Console.ReadLine();
+            } while (correto == "nao");
+            clienteNome.RemoveAt(identificador);
+            clienteIdade.RemoveAt(identificador);
+            clienteGoverno.RemoveAt(identificador);
+            clienteCpf.RemoveAt(identificador);
+            clienteEndereco.RemoveAt(identificador);
+            clienteComplemento.RemoveAt(identificador);
+            clienteTelefone.RemoveAt(identificador);
+
+            Console.WriteLine("Digite o nome:");
+            clienteNome[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite a idade");
+            clienteIdade[identificador] = int.Parse(Console.ReadLine());
+            Console.WriteLine("Faz parte de algum projeto do governo?");
+            clienteGoverno[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite o CPF");
+            clienteCpf[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite o endereço");
+            clienteEndereco[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite o complemento");
+            clienteComplemento[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite o telefone");
+            clienteTelefone[identificador] = Console.ReadLine();
+
+            Console.WriteLine("Mudança feita com sucesso");
+            Console.ReadLine();
+
+
         }
 
         static void Exit()
