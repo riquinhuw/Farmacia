@@ -34,7 +34,7 @@ namespace Farmacia
         public static ArrayList clienteCpf = new ArrayList(); // xxx.xxx.xxx-xx
         public static ArrayList clienteGoverno = new ArrayList(); // Bool ou String (string)
         public static double renda = 0;// Quanto foi que ganhou no dia
-                                      //Vars comuns
+                                       //Vars comuns
         public static int menu = 1; // para a resposta do menu
         public static string bugMenu; //para receber a respsota do usuario e testar se é um Digit ou não
         public static string looping = "s"; // para o While, quando for n ou outra coisa o programa acaba
@@ -131,14 +131,32 @@ namespace Farmacia
 
             clienteNome.Add("Biliro Samico");
             clienteNumero.Add(0);
-            clienteIdade.Add(86);
+            clienteIdade.Add(18);
             clienteGoverno.Add("nao");
             clienteCpf.Add("123.456.789.10");
             clienteEndereco.Add("Rua dos Gatos,356");
             clienteComplemento.Add("");
             clienteTelefone.Add("81 969784827");
 
-            
+            clienteNome.Add("Joao Cleber");
+            clienteNumero.Add(1);
+            clienteIdade.Add(35);
+            clienteGoverno.Add("nao");
+            clienteCpf.Add("987.654.321-25");
+            clienteEndereco.Add("Avenida Cleberalto de Asis,121");
+            clienteComplemento.Add("Bloco A14, Apartamento 304");
+            clienteTelefone.Add("81 984125478");
+
+            clienteNome.Add("Claudia Leite");
+            clienteNumero.Add(2);
+            clienteIdade.Add(45);
+            clienteGoverno.Add("sim");
+            clienteCpf.Add("787.545.213-75");
+            clienteEndereco.Add("Avenida Via Lactia,531");
+            clienteComplemento.Add("Bloco Apolo, Apt 11");
+            clienteTelefone.Add("81 981832468");
+
+
 
             // Codigo em si \/
 
@@ -166,7 +184,7 @@ namespace Farmacia
                         VenderRemedios();
                         Sair();
                         break;
-                    //Repo Remedio
+                    //Repor Remedio
                     case 4:
                         Console.Clear();
                         ReporRemedios();
@@ -190,6 +208,11 @@ namespace Farmacia
                         PedidoDelivery();
                         Sair();
                         break;
+                    //Sair
+                    case 10:
+                        Console.Clear();
+                        Exit();
+                        break;
                     // Resposta invalida
                     default:
                         erro1 = 1;
@@ -210,14 +233,14 @@ namespace Farmacia
             Console.WriteLine("3 - Vender remedio\n");// Retirar X do estoque - Desconto para pessoas do governo em base do salario
             Console.WriteLine("4 - Repor remedio  \n");
             Console.WriteLine("5 - Cadastrar cliente \n");// HU3 vamos mandar propaganda
-            Console.WriteLine("6 - Listar clientes\n"); 
+            Console.WriteLine("6 - Listar clientes\n");
             Console.WriteLine("7 - Pedido delivery\n");
             Console.WriteLine("8 - Salvar dados\n");//Pensar em um nome melhor
             Console.WriteLine("9 - Ler Dados\n");
             Console.WriteLine("10 - Sair");
             if (erro1 == 1) { Console.WriteLine("Opção invalida, por favor tente novamente"); erro1 = 0; }
             if (erro2 == 1) { Console.WriteLine("ACEITAMOS A PENAS NUMEROS, tente novamente"); erro2 = 0; }
-            Console.WriteLine("Digite uma opção");            
+            Console.WriteLine("Digite uma opção");
             bugMenu = Console.ReadLine();
             if (!char.IsDigit(bugMenu[0]))
             {
@@ -234,17 +257,15 @@ namespace Farmacia
             looping = Console.ReadLine();
         }
 
-
         static void ListarRemedios()
         {
             int i = 1;
-            for (i=1; i <= 10; i++)
+            for (i = 1; i <= 10; i++)
             {
                 Console.WriteLine("{0} - {1} - qtd {2} - {3}R$    ***{4}\n", remedioNumero[i], remedioNome[i], remedioQuantidade[i], remedioPreco[i], remedioPrevisao[i]);
 
             }
         }
-
 
         static void VenderRemedios()
         {
@@ -259,24 +280,50 @@ namespace Farmacia
             double total = 0;
             int pagamento = 0;
             double recebido = 0;
+            string evitarErro;
+            int evitarErroNum = 0;
 
             do
             {
                 Console.Clear();
-                Console.WriteLine("Digite o numero do remedio");
-                numero[contador] = int.Parse(Console.ReadLine());
+                do
+                {
+                    do
+                    {
+                        Console.WriteLine("Digite o numero do remedio");
+                        if (evitarErroNum == 1) { Console.WriteLine("Digite UM NUMERO!"); }
+                        evitarErro = Console.ReadLine();
+                        if (!char.IsDigit(evitarErro[0])) // evitar que o usuario digite letras
+                        { evitarErroNum = 1; }
+                        else
+                        { evitarErroNum = 0; }
+                    } while (evitarErroNum == 1);
+
+                    if (Convert.ToInt32(evitarErro) >= 11) { evitarErroNum = 1; } else { evitarErroNum = 0; }
+
+                } while (evitarErroNum == 1);
+                numero[contador] = int.Parse(evitarErro);
+
                 Console.WriteLine("Nome:{0} - Preço:{1}R$\n", remedioNome[numero[contador]], remedioPreco[numero[contador]]);
-                Console.WriteLine("Digite a quantidade:");
-                qtd[contador] = int.Parse(Console.ReadLine());
-                compraNome[contador] = remedioNome[numero[contador]];
-                compraPreco[contador] = remedioPreco[numero[contador]];
-                contador++;
+                do
+                {
+                    Console.WriteLine("Digite a quantidade:");
+                    evitarErro = Console.ReadLine();
+                    if (!char.IsDigit(evitarErro[0])) //Evitar que o usuario digite letras
+                    { evitarErroNum = 1; }
+                    else
+                    { evitarErroNum = 0; }
+                    qtd[contador] = int.Parse(evitarErro);
+                    compraNome[contador] = remedioNome[numero[contador]];
+                    compraPreco[contador] = remedioPreco[numero[contador]];
+                } while (evitarErroNum == 1);
                 Console.WriteLine("Deseja adicionar outro remedio?(s/n)");
                 resposta = Console.ReadLine();
+                contador++;
             } while (resposta == "s");
             Console.Clear();
             Console.WriteLine("**********Carrinho de compras**********\n\n\n");
-            for (i = 0; i <= contador-1; i++)
+            for (i = 0; i <= contador - 1; i++)
             {
                 Console.WriteLine("Nome:{0} -qtd {1} preco={2}R$\n", compraNome[i], qtd[i], compraPreco[i] * qtd[i]);
                 total = total + (compraPreco[i] * qtd[i]);
@@ -312,7 +359,7 @@ namespace Farmacia
                     Console.WriteLine("TOTAL A PAGAR:{0}R$", total);
                     Console.WriteLine("Digite o valor recebido");
                     recebido = int.Parse(Console.ReadLine());
-                    Console.WriteLine("O Troco é de {0}", recebido - total);
+                    Console.WriteLine("O Troco é de {0}R$", recebido - total);
                     Console.WriteLine("Ogrigada pela compra, VOLTE SEMPRE");
                     break;
             }
@@ -327,12 +374,18 @@ namespace Farmacia
             Console.WriteLine("Procurar por palavras-chaves de sintomas\n\n");
             Console.WriteLine("Informe um sintoma\n");
             sintoma = Console.ReadLine();
+            Console.WriteLine("\n\n");
             foreach (string sintomass in remedioSintoma)
             {
 
                 if (sintoma.ToLower().Contains(sintoma.ToLower()))
                 {
-                    Console.WriteLine("para {1} use: {0}   -{2}", remedioNome[i], remedioSintoma[i], remedioNumero[i]);
+                    if (remedioNome[i] == null)
+                    { }
+                    else
+                    {
+                        Console.WriteLine("para {1} use: {0}   -{2}", remedioNome[i], remedioSintoma[i], remedioNumero[i]);
+                    }
                 }
                 i++;
             }
@@ -345,7 +398,7 @@ namespace Farmacia
             Console.WriteLine("Digite o número remédio: ");
             x = int.Parse(Console.ReadLine());
             Console.WriteLine("Informe a quantidade: ");
-            remedioQuantidade[x] = int.Parse(Console.ReadLine());
+            remedioQuantidade[x] = remedioQuantidade[x] + int.Parse(Console.ReadLine());
         }
 
         static void CadastrarCliente()
@@ -353,8 +406,7 @@ namespace Farmacia
             Console.Clear();
             Console.WriteLine("Digite o nome");
             clienteNome.Add(Console.ReadLine());
-            //NUEMERO da ordem
-            clienteNumero.Add(clienteNumero.Count);
+            clienteNumero.Add(clienteNumero.Count);//NUEMERO da ordem
             Console.WriteLine("Digite a idade");
             clienteIdade.Add(int.Parse(Console.ReadLine()));
             Console.WriteLine("O cliente faz parte de algum programa do governo?");
@@ -365,9 +417,8 @@ namespace Farmacia
             clienteEndereco.Add(Console.ReadLine());
             Console.WriteLine("Digite o complemento");
             clienteComplemento.Add(Console.ReadLine());
-            Console.WriteLine("Digite o numero com o 81 e o 9");
+            Console.WriteLine("Digite o numero do cliente com o DDD e o 9:");
             clienteTelefone.Add(Console.ReadLine());
-
         }
 
         static void ListarCliente()
@@ -377,16 +428,15 @@ namespace Farmacia
             Console.WriteLine("***************LISTA DE CLIENTES***************\n\n");
             for (; i <= clienteNumero.Count - 1; i++)
             {
-                Console.WriteLine("{0} - {1} ",clienteNumero[i],clienteNome[i]);
+                Console.WriteLine("{0} - {1} ", clienteNumero[i], clienteNome[i]);
 
             }
-
         }
 
         static void PedidoDelivery()//Precisa dar um jeito de pesquisar pelo nome | Falta Refinar a compra dentro do Delivery
         {
-            int identificador=0;
-            string correto = ("sim"); 
+            int identificador = 0;
+            string correto = ("sim");
             Console.WriteLine("****************DELIVERY****************\n\n");
             Console.WriteLine("Digite o codigo de identificação do cliente");
             identificador = int.Parse(Console.ReadLine());
@@ -395,13 +445,62 @@ namespace Farmacia
                 Console.Clear();
                 Console.WriteLine("****************DELIVERY****************\n\n");
                 Console.WriteLine("Cliente encontrado!");
-                Console.WriteLine("Nome:{0}\nIdade:{1}\nGoverno:{2}\nCPF:{3}\nEndereco:{4}\nComento:{5}\nTelefone:{5}", clienteNome[identificador], clienteIdade[identificador], clienteGoverno[identificador], clienteCpf[identificador], clienteEndereco[identificador], clienteComplemento[identificador], clienteTelefone[identificador]);
+                Console.WriteLine("Nome:{0}\nIdade:{1}\nGoverno:{2}\nCPF:{3}\nEndereco:{4}\nComplemento:{5}\nTelefone:{6}", clienteNome[identificador], clienteIdade[identificador], clienteGoverno[identificador], clienteCpf[identificador], clienteEndereco[identificador], clienteComplemento[identificador], clienteTelefone[identificador]);
                 Console.WriteLine("Estas informações estão corretas?(sim/nao)");
                 correto = Console.ReadLine();
                 if (correto == "nao") { Menu(); }
                 VenderRemedios();
             }
-            else { Console.WriteLine("Cliente não encontrado, tente novamente");}
+            else { Console.WriteLine("Cliente não encontrado, tente novamente"); }
+        }
+
+        static void EditarCliente() //falta terminar, está bugado
+        {
+            int identificador = 0;
+            string correto = "sim";
+            do
+            {
+                Console.WriteLine("Digite o numero de identificação do clinte");
+                identificador = int.Parse(Console.ReadLine());
+                Console.WriteLine("Cliente encontrado!");
+                Console.WriteLine("Nome:{0}\nIdade:{1}\nGoverno:{2}\nCPF:{3}\nEndereco:{4}\nComplemento:{5}\nTelefone:{6}", clienteNome[identificador], clienteIdade[identificador], clienteGoverno[identificador], clienteCpf[identificador], clienteEndereco[identificador], clienteComplemento[identificador], clienteTelefone[identificador]);
+                Console.WriteLine("Estas informações estão corretas?(sim/nao)");
+                correto = Console.ReadLine();
+            } while (correto == "nao");
+            clienteNome.RemoveAt(identificador);
+            clienteIdade.RemoveAt(identificador);
+            clienteGoverno.RemoveAt(identificador);
+            clienteCpf.RemoveAt(identificador);
+            clienteEndereco.RemoveAt(identificador);
+            clienteComplemento.RemoveAt(identificador);
+            clienteTelefone.RemoveAt(identificador);
+
+            Console.WriteLine("Digite o nome:");
+            clienteNome[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite a idade");
+            clienteIdade[identificador] = int.Parse(Console.ReadLine());
+            Console.WriteLine("Faz parte de algum projeto do governo?");
+            clienteGoverno[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite o CPF");
+            clienteCpf[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite o endereço");
+            clienteEndereco[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite o complemento");
+            clienteComplemento[identificador] = Console.ReadLine();
+            Console.WriteLine("Digite o telefone");
+            clienteTelefone[identificador] = Console.ReadLine();
+
+            Console.WriteLine("Mudança feita com sucesso");
+            Console.ReadLine();
+        }
+
+        static void Exit()
+        {
+            string perguntaSair = "n";
+            Console.WriteLine("Você deseja realmente sair?(s/n)");
+            perguntaSair = Console.ReadLine();
+            if (perguntaSair == "s") { looping = "n"; }
+
         }
     }
 }
