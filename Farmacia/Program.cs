@@ -208,12 +208,8 @@ namespace Farmacia
                         PedidoDelivery();
                         Sair();
                         break;
-                    case 8:
-                        Console.Clear();
-                        EditarCliente();
-                        break;
                     //Sair
-                    case 11:
+                    case 10:
                         Console.Clear();
                         Exit();
                         break;
@@ -239,10 +235,9 @@ namespace Farmacia
             Console.WriteLine("5 - Cadastrar cliente \n");// HU3 vamos mandar propaganda
             Console.WriteLine("6 - Listar clientes\n"); 
             Console.WriteLine("7 - Pedido delivery\n");
-            Console.WriteLine("8 - Editar cliente\n");
-            Console.WriteLine("9 - Salvar dados\n");//Pensar em um nome melhor
-            Console.WriteLine("10 - Ler Dados\n");
-            Console.WriteLine("11 - Sair");
+            Console.WriteLine("8 - Salvar dados\n");//Pensar em um nome melhor
+            Console.WriteLine("9 - Ler Dados\n");
+            Console.WriteLine("10 - Sair");
             if (erro1 == 1) { Console.WriteLine("Opção invalida, por favor tente novamente"); erro1 = 0; }
             if (erro2 == 1) { Console.WriteLine("ACEITAMOS A PENAS NUMEROS, tente novamente"); erro2 = 0; }
             Console.WriteLine("Digite uma opção");            
@@ -459,7 +454,7 @@ namespace Farmacia
             else { Console.WriteLine("Cliente não encontrado, tente novamente");}
         }
 
-        static void EditarCliente()
+        static void EditarCliente() //falta terminar, está bugado
         {
             int identificador = 0;
             string correto= "sim";
@@ -497,8 +492,6 @@ namespace Farmacia
 
             Console.WriteLine("Mudança feita com sucesso");
             Console.ReadLine();
-
-
         }
 
         static void Exit()
